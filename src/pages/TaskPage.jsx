@@ -9,7 +9,7 @@ export default function TasksPage() {
             <Header />
             <main>
                 <WelcomeSection />
-                <TaskCard />
+                <TaskGrid/>
             </main>
         </div>
     );
