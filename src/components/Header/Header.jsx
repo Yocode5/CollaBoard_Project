@@ -1,7 +1,10 @@
+import './Header.css';
+
 export default function Header() {
     return (
-        <header>
-            <h1>CollaBoard</h1>
+        <header className="header">
+            <h1 className="header__title">CollaBoard</h1>
         </header>
     );
 }
+
