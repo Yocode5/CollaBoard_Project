@@ -2,7 +2,7 @@
     display: flex;
     align-items: center;
     padding: 0 30px;
-    height: 64px;
+    height: 80px;
     background-color: #0F2A39;
     border-bottom: 2px solid #1a5f70;
     position: sticky;
@@ -11,7 +11,7 @@
 }
 
 .header__title {
-    font-size: 1.4rem;
+    font-size: 1.7rem;
     font-weight: 700;
     color: #FFFFFF;
     letter-spacing: 0.3px;
