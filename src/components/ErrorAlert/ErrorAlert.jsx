@@ -1,5 +1,3 @@
-import React from 'react';
-
 export default function ErrorAlert({ message, onRetry }) {
   if (!message) return null;
 
