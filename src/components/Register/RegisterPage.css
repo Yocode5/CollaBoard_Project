@@ -1,0 +1,122 @@
+.auth-page {
+  display: flex;
+  min-height: 100vh;
+  background: linear-gradient(180deg, #2B7086 0%, #0A0F19 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 40px 10%;
+  gap: 10%; 
+}
+
+.auth-branding {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  color: white;
+  max-width: 500px;
+}
+
+.auth-logo {
+  font-size: 4rem;
+  font-weight: 700;
+  margin-bottom: 0px;
+  letter-spacing: -1px;
+}
+
+.auth-tagline {
+  font-size: 1.5rem;
+  color: #c9e0e5;
+  font-weight: 400;
+  margin-top: 5px;
+}
+
+.auth-form-container {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  max-width: 400px;
+}
+
+.auth-card {
+  background-color: white;
+  border-radius: 20px;
+  padding: 40px;
+  width: 100%;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+}
+
+.auth-title {
+  text-align: center;
+  font-size: 1.75rem;
+  color: #000;
+  margin-bottom: 30px;
+  font-weight: 700;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #000;
+  margin-bottom: 8px;
+}
+
+.auth-form input {
+  width: 100%;
+  padding: 14px 15px;
+  background-color: #dcdcdc; 
+  border: none;
+  border-radius: 12px;
+  font-size: 1rem;
+  color: #333;
+  box-sizing: border-box;
+  outline: none;
+  font-family: inherit;
+}
+
+.auth-form input:focus {
+  outline: 2px solid #2B7086; 
+}
+
+.password-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.toggle-password {
+  position: absolute;
+  right: 15px;
+  color: #666;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.toggle-password:hover {
+  color: #000;
+}
+
+.auth-submit-btn {
+  margin-top: 15px;
+  background-color: #2B7086;
+  color: white;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+  font-family: inherit;
+}
+
+.auth-submit-btn:hover {
+  background-color: #1f5566;
+}

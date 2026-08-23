@@ -1,3 +1,4 @@
+//import RegisterPage from "./pages/RegisterPage";
 import ProjectsPage from "./pages/ProjectsPage";
 //import TaskPage from "./pages/TaskPage";
 
