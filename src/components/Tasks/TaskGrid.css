@@ -1,0 +1,39 @@
+.task-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+
+    width: 100%;
+    margin: 0 auto;
+}
+
+/* Kanban column */
+.task-column {
+    flex: 1;
+    max-width: 360px;
+
+    display: flex;
+    flex-direction: column;
+
+    background-color: rgba(10, 15, 25, 0.55);
+    border: 1px solid rgba(20, 90, 102, 0.7);
+    border-radius: 12px;
+
+    padding: 18px;
+}
+
+/* Column heading */
+.task-column__title {
+    margin: 0 0 18px;
+
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+/* Cards inside the column */
+.task-column__cards {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
