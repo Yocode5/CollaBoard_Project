@@ -40,7 +40,9 @@ export default function TasksPage() {
             <main>
 
                 <WelcomeSection
-                    onAddTask={handleAddTask}
+                    sectionName="Tasks"
+                    buttonText="Add new Task"
+                    onButtonClick={handleAddTask}
                 />
 
                 <TaskGrid

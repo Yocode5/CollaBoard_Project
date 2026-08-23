@@ -1,19 +1,137 @@
+/* =========================
+   HEADER
+========================= */
+
 .header {
     display: flex;
     align-items: center;
-    padding: 0 30px;
-    height: 80px;
+
+    height: 82px;
+    padding: 0 48px;
+
     background-color: #0F2A39;
-    border-bottom: 2px solid #1a5f70;
+
+    border-bottom: 2px solid #1A5F70;
+
+    box-sizing: border-box;
+
     position: sticky;
     top: 0;
     z-index: 100;
 }
 
+
+/* =========================
+   LOGO
+========================= */
+
 .header__title {
+    margin: 0;
+
+    color: #FFFFFF;
+
     font-size: 1.7rem;
     font-weight: 700;
-    color: #FFFFFF;
+
     letter-spacing: 0.3px;
-    margin: 0;
+}
+
+
+/* =========================
+   NAVIGATION
+========================= */
+
+.header__nav {
+    display: flex;
+    align-items: center;
+
+    gap: 64px;
+
+    margin: 0 auto;
+}
+
+
+.header__link {
+    color: #FFFFFF;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+
+    text-decoration: none;
+
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.header__link:hover {
+    color: #5BD7E8;
+}
+
+
+/* =========================
+   ACTIONS
+========================= */
+
+.header__actions {
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.header__button {
+    border: none;
+    border-radius: 10px;
+
+    min-width: 76px;
+    height: 34px;
+
+    padding: 0 16px;
+
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        opacity 0.2s ease,
+        transform 0.2s ease;
+}
+
+
+.header__button:hover {
+    opacity: 0.85;
+}
+
+
+.header__button:active {
+    transform: scale(0.97);
+}
+
+
+/* =========================
+   PROFILE
+========================= */
+
+.header__button--profile {
+    background-color: #4FC7E8;
+    color: #082D33;
+}
+
+
+/* =========================
+   LOGOUT
+========================= */
+
+.header__button--logout {
+    background-color: #EC7C80;
+    color: #FFFFFF;
 }

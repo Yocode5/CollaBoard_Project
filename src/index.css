@@ -22,6 +22,15 @@ body {
     );
 }
 
+.projects-page {
+    min-height: 100vh;
+    background: linear-gradient(
+        180deg,
+        #2B7086 0%,
+        #0A0F19 100%
+    );
+}
+
 main {
     padding: 40px; 
     max-width: 1200px;

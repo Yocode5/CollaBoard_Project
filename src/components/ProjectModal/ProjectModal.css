@@ -1,0 +1,346 @@
+/* =========================
+   MODAL OVERLAY
+========================= */
+
+.project-modal__overlay {
+    position: fixed;
+
+    inset: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    background-color: rgba(0, 0, 0, 0.65);
+
+    z-index: 1000;
+}
+
+
+/* =========================
+   MODAL
+========================= */
+
+.project-modal {
+    width: 100%;
+    max-width: 480px;
+
+    max-height: 90vh;
+
+    overflow-y: auto;
+
+    background-color: #ffffff;
+
+    border-radius: 20px;
+
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.45);
+
+    color: #111111;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   MODAL HEADER
+========================= */
+
+.project-modal__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    padding: 14px 18px 10px;
+
+    border-bottom: 2px solid #cccccc;
+}
+
+
+.project-modal__title {
+    margin: 0;
+
+    color: #111111;
+
+    font-size: 1.7rem;
+    font-weight: 700;
+
+    line-height: 1.2;
+}
+
+
+.project-modal__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    width: 32px;
+    height: 32px;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #888888;
+
+    font-size: 1.5rem;
+
+    cursor: pointer;
+}
+
+
+.project-modal__close:hover {
+    color: #333333;
+}
+
+
+/* =========================
+   FORM
+========================= */
+
+.project-form {
+    display: flex;
+    flex-direction: column;
+
+    gap: 12px;
+
+    padding: 16px 18px 14px;
+}
+
+
+/* =========================
+   FIELD
+========================= */
+
+.project-form__field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 6px;
+
+    width: 100%;
+}
+
+
+.project-form__field label {
+    color: #111111;
+
+    font-size: 1rem;
+    font-weight: 600;
+
+    line-height: 1.2;
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.project-form__field input,
+.project-form__field textarea {
+    width: 100%;
+
+    border: none;
+
+    border-radius: 9px;
+
+    background-color: #d9d9d9;
+
+    color: #111111;
+
+    font-family: inherit;
+
+    font-size: 0.95rem;
+
+    outline: none;
+
+    box-sizing: border-box;
+}
+
+
+.project-form__field input {
+    height: 38px;
+
+    padding: 0 12px;
+}
+
+
+.project-form__field textarea {
+    min-height: 112px;
+
+    padding: 10px 12px;
+
+    resize: vertical;
+}
+
+
+.project-form__field input:focus,
+.project-form__field textarea:focus {
+    box-shadow: 0 0 0 2px #5aaee0;
+}
+
+
+/* =========================
+   DATES
+========================= */
+
+.project-form__dates {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 28px;
+
+    width: 100%;
+}
+
+
+/* =========================
+   MEMBERS
+========================= */
+
+.project-form__members {
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 9px;
+
+    margin-top: -3px;
+}
+
+
+.project-form__member {
+    display: flex;
+    align-items: center;
+
+    gap: 14px;
+
+    padding: 5px 9px;
+
+    background-color: #287c95;
+
+    border-radius: 10px;
+
+    color: #ffffff;
+
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+
+.project-form__member button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    font-size: 1rem;
+
+    cursor: pointer;
+}
+
+
+.project-form__member button:hover {
+    color: #d8d8d8;
+}
+
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.project-form__field--description {
+    margin-top: 3px;
+}
+
+
+/* =========================
+   ACTION BUTTONS
+========================= */
+
+.project-form__actions {
+    display: grid;
+
+    grid-template-columns: 1fr 1fr;
+
+    gap: 12px;
+
+    margin-top: 5px;
+}
+
+
+.project-form__button {
+    height: 47px;
+
+    border: none;
+
+    border-radius: 9px;
+
+    color: #ffffff;
+
+    font-family: inherit;
+
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    cursor: pointer;
+
+    transition:
+        transform 0.1s ease,
+        opacity 0.2s ease;
+}
+
+
+.project-form__button:hover {
+    opacity: 0.9;
+}
+
+
+.project-form__button:active {
+    transform: translateY(1px);
+}
+
+
+.project-form__button--create {
+    background-color: #5aaee0;
+}
+
+
+.project-form__button--cancel {
+    background-color: #ed7f82;
+}
+
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 500px) {
+
+    .project-modal {
+        max-width: 100%;
+    }
+
+
+    .project-form__dates {
+        grid-template-columns: 1fr;
+
+        gap: 12px;
+    }
+
+
+    .project-modal__title {
+        font-size: 1.45rem;
+    }
+
+}

@@ -1,0 +1,179 @@
+/* =========================
+   PROJECT CARD
+========================= */
+
+.project-card {
+    display: flex;
+    flex-direction: column;
+
+    width: 100%;
+    min-height: 300px;
+
+    padding: 20px;
+
+    background-color: #0A3641;
+
+    border: 7px solid #007D85;
+    border-radius: 12px;
+
+    box-shadow: 0 8px 14px rgba(0, 0, 0, 0.35);
+
+    color: #ffffff;
+
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   TITLE
+========================= */
+
+.project-card__title {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+
+/* =========================
+   DIVIDER
+========================= */
+
+.project-card__divider {
+    width: 100%;
+
+    margin: 12px 0 16px;
+
+    border: none;
+    border-top: 1px solid rgba(255, 255, 255, 0.55);
+}
+
+
+/* =========================
+   FIELD
+========================= */
+
+.project-card__field {
+    display: flex;
+    flex-direction: column;
+
+    gap: 7px;
+
+    margin-bottom: 16px;
+}
+
+
+/* =========================
+   LABEL
+========================= */
+
+.project-card__label {
+    color: #ffffff;
+
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+
+/* =========================
+   MEMBERS
+========================= */
+
+.project-card__members {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+
+    width: 100%;
+    min-height: 28px;
+
+    padding: 5px 10px;
+
+    box-sizing: border-box;
+
+    background-color: #4A8585;
+
+    border-radius: 6px;
+
+    color: #ffffff;
+
+    font-size: 0.9rem;
+}
+
+
+.project-card__members i {
+    font-size: 0.85rem;
+
+    opacity: 0.9;
+}
+
+
+/* =========================
+   DESCRIPTION
+========================= */
+
+.project-card__description {
+    margin: 0;
+
+    color: #ffffff;
+
+    font-size: 0.85rem;
+    font-weight: 200;
+
+    line-height: 1.5;
+}
+
+
+/* =========================
+   FOOTER
+========================= */
+
+.project-card__footer {
+    display: flex;
+    justify-content: center;
+
+    margin-top: auto;
+    padding-top: 20px;
+}
+
+
+/* =========================
+   VIEW DETAILS
+========================= */
+
+.project-card__details {
+    padding: 0;
+
+    border: none;
+
+    background: transparent;
+
+    color: #ffffff;
+
+    font-family: inherit;
+    font-size: 0.85rem;
+
+    text-decoration: underline;
+
+    cursor: pointer;
+
+    transition:
+        color 0.2s ease,
+        opacity 0.2s ease;
+}
+
+
+.project-card__details:hover {
+    color: #5bd7e8;
+}
+
+
+.project-card__details:active {
+    opacity: 0.7;
+}
