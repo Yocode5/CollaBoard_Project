@@ -15,7 +15,7 @@ export default function Header() {
 
                 {/* Navigation */}
                 <nav className="header__nav">
-                    <a href="/" className="header__link">
+                    <a href="/dashbard" className="header__link">
                         Home
                     </a>
                     <a href="/projects" className="header__link">
