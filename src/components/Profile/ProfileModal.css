@@ -1,0 +1,128 @@
+.profile-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.profile-modal-content {
+    background-color: #ffffff;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 450px;
+    color: #111111;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    box-sizing: border-box;
+}
+
+.profile-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 2px solid #f0f0f0;
+    box-sizing: border-box;
+}
+
+.profile-modal-title {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #111111;
+}
+
+.profile-modal-close {
+    background: none;
+    border: none;
+    color: #999999;
+    font-size: 1.5rem;
+    font-weight: 700;
+    cursor: pointer;
+    padding: 0;
+    line-height: 1;
+}
+
+.profile-modal-close:hover {
+    color: #666666;
+}
+
+.profile-modal-body {
+    padding: 24px;
+    box-sizing: border-box;
+}
+
+.profile-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.profile-form__group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.profile-form__group label {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #111111;
+}
+
+.profile-form__group input {
+    padding: 14px 16px;
+    border-radius: 8px;
+    border: none;
+    background-color: #d9d9d9;
+    color: #111111;
+    font-family: inherit;
+    font-size: 1rem;
+    box-sizing: border-box;
+    width: 100%;
+}
+
+.profile-form__group input:focus {
+    outline: 2px solid #5ab0e2;
+}
+
+.profile-form__actions {
+    display: flex;
+    gap: 16px;
+    margin-top: 12px;
+}
+
+.profile-form__submit,
+.profile-form__cancel {
+    flex: 1;
+    padding: 14px;
+    border: none;
+    border-radius: 8px;
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.05rem;
+    font-family: inherit;
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.profile-form__submit {
+    background-color: #5ab0e2;
+}
+
+.profile-form__cancel {
+    background-color: #ec7b80;
+}
+
+.profile-form__submit:hover,
+.profile-form__cancel:hover {
+    opacity: 0.9;
+}
