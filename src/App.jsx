@@ -1,11 +1,10 @@
 //import RegisterPage from "./pages/RegisterPage";
-import ProjectsPage from "./pages/ProjectsPage";
-//import TaskPage from "./pages/TaskPage";
+//import ProjectsPage from "./pages/ProjectsPage";
+import TaskPage from "./pages/TaskPage";
 
 function App() {
-    return <ProjectsPage />;
+    return <TaskPage />;
 
-    
 }
 
 export default App;

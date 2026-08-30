@@ -1,4 +1,3 @@
-import React from 'react';
 import { useLoginForm } from '../hooks/useLoginForm';
 import './LoginPage.css';
 
@@ -44,12 +43,12 @@ export default function LoginPage() {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
-                <span
-                  className="toggle-password"
+
+                <i
+                  className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'} toggle-password`}
                   onClick={handleTogglePassword}
-                >
-                  {showPassword ? '👁️‍🗨️' : '👁️'}
-                </span>
+                ></i>
+
               </div>
               {errors.password && <span className="error-text">{errors.password}</span>}
             </div>
