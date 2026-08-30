@@ -1,10 +1,20 @@
 //import RegisterPage from "./pages/RegisterPage";
-//import ProjectsPage from "./pages/ProjectsPage";
+import DashboardPage from "./pages/DashboardPage";
+import ProjectsPage from "./pages/ProjectsPage";
 import TaskPage from "./pages/TaskPage";
 
 function App() {
-    return <TaskPage />;
+    const currentPath = window.location.pathname;
 
+    if (currentPath === "/projects") {
+        return <ProjectsPage />;
+    }
+
+    if (currentPath === "/tasks") {
+        return <TaskPage />;
+    }
+
+    return <DashboardPage />;
 }
 
 export default App;
