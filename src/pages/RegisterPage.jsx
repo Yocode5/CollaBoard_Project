@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import '../components/Register/RegisterPage.css'; 
 
 const RegisterPage = () => {
