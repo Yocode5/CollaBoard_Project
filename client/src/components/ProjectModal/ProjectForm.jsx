@@ -1,6 +1,17 @@
 import { useState } from "react";
 
-export default function ProjectForm({ project, onClose }) {
+import {
+    createProject,
+    updateProject,
+    deleteProject
+} from "../../api/projectApi";
+
+
+export default function ProjectForm({
+    project,
+    onClose,
+    onProjectSaved
+}) {
 
     const [title, setTitle] = useState(project?.title || "");
     const [startDate, setStartDate] = useState(project?.startDate || "");
@@ -59,10 +70,10 @@ export default function ProjectForm({ project, onClose }) {
 
 
     // =========================
-    // SUBMIT
+    // CREATE / UPDATE PROJECT
     // =========================
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
 
         event.preventDefault();
 
@@ -74,12 +85,62 @@ export default function ProjectForm({ project, onClose }) {
             description
         };
 
-        console.log(
-            project ? "Edit project:" : "Create project:",
-            projectData
+        try {
+
+            if (project) {
+
+                await updateProject(
+                    project.id,
+                    projectData
+                );
+
+            } else {
+
+                await createProject(projectData);
+
+            }
+
+            onProjectSaved();
+            onClose();
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
+    };
+
+
+    // =========================
+    // DELETE PROJECT
+    // =========================
+
+    const handleDelete = async () => {
+
+        if (!project) {
+            return;
+        }
+
+        const confirmed = window.confirm(
+            "Are you sure you want to delete this project?"
         );
 
-        onClose();
+        if (!confirmed) {
+            return;
+        }
+
+        try {
+
+            await deleteProject(project.id);
+
+            onProjectSaved();
+            onClose();
+
+        } catch (error) {
+
+            console.error(error);
+
+        }
     };
 
 
@@ -103,7 +164,9 @@ export default function ProjectForm({ project, onClose }) {
                     id="project-title"
                     type="text"
                     value={title}
-                    onChange={(event) => setTitle(event.target.value)}
+                    onChange={(event) =>
+                        setTitle(event.target.value)
+                    }
                     required
                 />
 
@@ -250,13 +313,28 @@ export default function ProjectForm({ project, onClose }) {
                     {project ? "Save" : "Create"}
                 </button>
 
-                <button
-                    type="button"
-                    className="project-form__button project-form__button--cancel"
-                    onClick={onClose}
-                >
-                    Cancel
-                </button>
+
+                {project ? (
+
+                    <button
+                        type="button"
+                        className="project-form__button project-form__button--cancel"
+                        onClick={handleDelete}
+                    >
+                        Delete
+                    </button>
+
+                ) : (
+
+                    <button
+                        type="button"
+                        className="project-form__button project-form__button--cancel"
+                        onClick={onClose}
+                    >
+                        Cancel
+                    </button>
+
+                )}
 
             </div>
 
