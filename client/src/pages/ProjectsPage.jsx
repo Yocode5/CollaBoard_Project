@@ -9,7 +9,12 @@ export default function ProjectsPage() {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
+    const [refreshTrigger, setRefreshTrigger] = useState(0);
 
+
+    // =========================
+    // ADD PROJECT
+    // =========================
 
     const handleAddProject = () => {
         setSelectedProject(null);
@@ -17,15 +22,32 @@ export default function ProjectsPage() {
     };
 
 
+    // =========================
+    // VIEW / EDIT PROJECT
+    // =========================
+
     const handleViewProject = (project) => {
         setSelectedProject(project);
         setIsModalOpen(true);
     };
 
 
+    // =========================
+    // CLOSE MODAL
+    // =========================
+
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setSelectedProject(null);
+    };
+
+
+    // =========================
+    // PROJECT SAVED
+    // =========================
+
+    const handleProjectSaved = () => {
+        setRefreshTrigger(value => value + 1);
     };
 
 
@@ -45,6 +67,7 @@ export default function ProjectsPage() {
 
                 <ProjectGrid
                     onViewProject={handleViewProject}
+                    refreshTrigger={refreshTrigger}
                 />
 
             </main>
@@ -54,6 +77,7 @@ export default function ProjectsPage() {
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 project={selectedProject}
+                onProjectSaved={handleProjectSaved}
             />
 
         </div>

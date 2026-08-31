@@ -5,7 +5,8 @@ import ProjectForm from './ProjectForm';
 export default function ProjectModal({
     isOpen,
     onClose,
-    project
+    project,
+    onProjectSaved
 }) {
 
     if (!isOpen) {
@@ -46,6 +47,7 @@ export default function ProjectModal({
                 <ProjectForm
                     project={project}
                     onClose={onClose}
+                    onProjectSaved={onProjectSaved}
                 />
 
             </div>
