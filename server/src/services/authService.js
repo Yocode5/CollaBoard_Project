@@ -1,8 +1,7 @@
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const mockUsers = [
-    { id: '1', email: 'admin@collaboard.com', password: 'password123', name: 'Admin User' },
-    { id: '2', email: 'user@collaboard.com', password: 'password123', name: 'Test User' }
-];
+const userRepository = require('../repositories/userRepository');
 
 class AuthService {
     async login(email, password) {
@@ -12,20 +11,37 @@ class AuthService {
             throw error;
         }
 
-        
-        const user = mockUsers.find(u => u.email === email && u.password === password);
-        
+        const user = await userRepository.getUserByEmail(email);
+
         if (!user) {
             const error = new Error('Invalid email or password');
             error.statusCode = 401;
             throw error;
         }
 
-        
+        const passwordMatch = await bcrypt.compare(password, user.password);
+
+        if (!passwordMatch) {
+            const error = new Error('Invalid email or password');
+            error.statusCode = 401;
+            throw error;
+        }
+
+        const token = jwt.sign(
+            {
+                id: user._id,
+                email: user.email
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: '1h'
+            }
+        );
+
         return {
-            token: 'mock-jwt-token-xyz123',
+            token,
             user: {
-                id: user.id,
+                id: user._id,
                 email: user.email,
                 name: user.name
             }
@@ -33,25 +49,47 @@ class AuthService {
     }
 
     async register(userData) {
-        if (!userData.email || !userData.password) {
-            const error = new Error('Email and password are required for registration');
+        if (!userData.name || !userData.email || !userData.password) {
+            const error = new Error(
+                'Name, email, and password are required for registration'
+            );
             error.statusCode = 400;
             throw error;
         }
 
-        const newUser = {
-            id: String(mockUsers.length + 1),
-            email: userData.email,
-            password: userData.password,
-            name: userData.name || 'New User'
-        };
+        const existingUser = await userRepository.getUserByEmail(
+            userData.email
+        );
 
-        mockUsers.push(newUser);
+        if (existingUser) {
+            const error = new Error('Email already exists');
+            error.statusCode = 409;
+            throw error;
+        }
+
+        const hashedPassword = await bcrypt.hash(userData.password, 10);
+
+        const newUser = await userRepository.createUser({
+            name: userData.name,
+            email: userData.email,
+            password: hashedPassword
+        });
+
+        const token = jwt.sign(
+            {
+                id: newUser._id,
+                email: newUser.email
+            },
+            process.env.JWT_SECRET,
+            {
+                expiresIn: '1h'
+            }
+        );
 
         return {
-            token: 'mock-jwt-token-xyz123',
+            token,
             user: {
-                id: newUser.id,
+                id: newUser._id,
                 email: newUser.email,
                 name: newUser.name
             }

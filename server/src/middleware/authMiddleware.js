@@ -1,3 +1,5 @@
+const jwt = require('jsonwebtoken');
+
 const authMiddleware = (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
@@ -10,21 +12,17 @@ const authMiddleware = (req, res, next) => {
 
         const token = authHeader.split(' ')[1];
 
-        // Validate mock token
-        if (token !== 'mock-jwt-token-xyz123') {
-            const error = new Error('Invalid or expired token.');
-            error.statusCode = 403;
-            throw error;
-        }
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-        // Attach mock user payload to request
-        req.user = {
-            id: '1',
-            email: 'admin@collaboard.com'
-        };
+        req.user = decoded;
 
         next();
     } catch (error) {
+        if (error.name === 'JsonWebTokenError' || error.name === 'TokenExpiredError') {
+            error.statusCode = 401;
+            error.message = 'Invalid or expired token.';
+        }
+
         next(error);
     }
 };
