@@ -12,11 +12,19 @@ const getUserByEmail = async (email) => {
 };
 
 const getUserById = async (id) => {
-    // To be implemented for GET /profile/:id
+    return await User.findById(id).select('-password');
 };
 
 const updateUser = async (id, userData) => {
-    // To be implemented for PUT /profile/:id
+    const user = await User.findById(id);
+    if (!user) return null;
+
+    if (userData.name) user.name = userData.name;
+    if (userData.email) user.email = userData.email;
+    if (userData.password) user.password = userData.password;
+
+    await user.save();
+    return user;
 };
 
 module.exports = {

@@ -24,13 +24,39 @@ const registerUser = async (req, res, next) => {
 };
 
 
+// GET /api/users/profile/:id
 const getUserProfile = async (req, res, next) => {
-    // To be implemented
-    res.status(501).json({ message: 'Not implemented yet' });
+    try {
+        const user = await userService.getUserProfile(req.params.id);
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
+// PUT /api/users/profile/:id
 const updateUserProfile = async (req, res, next) => {
-    // To be implemented
-    res.status(501).json({ message: 'Not implemented yet' });
+    try {
+        const { name, email, password } = req.body;
+
+        const result = await userService.updateUserProfile(req.params.id, {
+            name,
+            email,
+            password
+        });
+
+        if (!result) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error', error: error.message });
+    }
 };
 
 module.exports = {
