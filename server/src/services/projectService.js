@@ -1,13 +1,11 @@
 const projectRepository = require('../repositories/projectRepository');
 
-
-const getAllProjects = () => {
-    return projectRepository.getAllProjects();
+const getAllProjects = async () => {
+    return await projectRepository.getAllProjects();
 };
 
-
-const getProjectById = (id) => {
-    const project = projectRepository.getProjectById(id);
+const getProjectById = async (id) => {
+    const project = await projectRepository.getProjectById(id);
 
     if (!project) {
         const error = new Error('Project not found.');
@@ -18,14 +16,12 @@ const getProjectById = (id) => {
     return project;
 };
 
-
-const createProject = (projectData) => {
-    return projectRepository.createProject(projectData);
+const createProject = async (projectData) => {
+    return await projectRepository.createProject(projectData);
 };
 
-
-const updateProject = (id, projectData) => {
-    const existingProject = projectRepository.getProjectById(id);
+const updateProject = async (id, projectData) => {
+    const existingProject = await projectRepository.getProjectById(id);
 
     if (!existingProject) {
         const error = new Error('Project not found.');
@@ -33,12 +29,11 @@ const updateProject = (id, projectData) => {
         throw error;
     }
 
-    return projectRepository.updateProject(id, projectData);
+    return await projectRepository.updateProject(id, projectData);
 };
 
-
-const deleteProject = (id) => {
-    const existingProject = projectRepository.getProjectById(id);
+const deleteProject = async (id) => {
+    const existingProject = await projectRepository.getProjectById(id);
 
     if (!existingProject) {
         const error = new Error('Project not found.');
@@ -46,9 +41,8 @@ const deleteProject = (id) => {
         throw error;
     }
 
-    return projectRepository.deleteProject(id);
+    return await projectRepository.deleteProject(id);
 };
-
 
 module.exports = {
     getAllProjects,

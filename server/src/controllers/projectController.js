@@ -1,9 +1,8 @@
 const projectService = require('../services/projectService');
 
-
-const getAllProjects = (req, res, next) => {
+const getAllProjects = async (req, res, next) => {
     try {
-        const projects = projectService.getAllProjects();
+        const projects = await projectService.getAllProjects();
 
         res.status(200).json({
             success: true,
@@ -14,10 +13,9 @@ const getAllProjects = (req, res, next) => {
     }
 };
 
-
-const getProjectById = (req, res, next) => {
+const getProjectById = async (req, res, next) => {
     try {
-        const project = projectService.getProjectById(req.params.id);
+        const project = await projectService.getProjectById(req.params.id);
 
         res.status(200).json({
             success: true,
@@ -28,10 +26,9 @@ const getProjectById = (req, res, next) => {
     }
 };
 
-
-const createProject = (req, res, next) => {
+const createProject = async (req, res, next) => {
     try {
-        const project = projectService.createProject(req.body);
+        const project = await projectService.createProject(req.body);
 
         res.status(201).json({
             success: true,
@@ -43,10 +40,9 @@ const createProject = (req, res, next) => {
     }
 };
 
-
-const updateProject = (req, res, next) => {
+const updateProject = async (req, res, next) => {
     try {
-        const project = projectService.updateProject(
+        const project = await projectService.updateProject(
             req.params.id,
             req.body
         );
@@ -61,10 +57,9 @@ const updateProject = (req, res, next) => {
     }
 };
 
-
-const deleteProject = (req, res, next) => {
+const deleteProject = async (req, res, next) => {
     try {
-        const project = projectService.deleteProject(req.params.id);
+        const project = await projectService.deleteProject(req.params.id);
 
         res.status(200).json({
             success: true,
@@ -75,7 +70,6 @@ const deleteProject = (req, res, next) => {
         next(error);
     }
 };
-
 
 module.exports = {
     getAllProjects,
