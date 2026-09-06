@@ -1,30 +1,33 @@
-// mock array to store users 
-let mockUsers = [
-  { id: 1, name: "Yasith", email: "yasith@collaboard.com", password: "password123" },
-  { id: 2, name: "Sahseena", email: "sahseena@collaboard.com", password: "password456" },
-  { id: 3, name: "Naduntha", email: "naduntha@collaboard.com", password: "password789" }
-];
+const User = require('../models/User');
 
-const getUserById = (id) => mockUsers.find(user => user.id === parseInt(id));
-
-const getUserByEmail = (email) => mockUsers.find(user => user.email === email);
-
-// Create a new user 
-const createUser = (userData) => {
-  const newUser = {
-    id: mockUsers.length ? Math.max(...mockUsers.map(u => u.id)) + 1 : 1,
-    ...userData
-  };
-  mockUsers.push(newUser);
-  return newUser;
+// Find a user by ID
+const getUserById = async (id) => {
+    return await User.findById(id);
 };
 
-// Update an existing user's name and email
-const updateUser = (id, userData) => {
-  const index = mockUsers.findIndex(user => user.id === parseInt(id));
-  if (index === -1) return null;
-  mockUsers[index] = { ...mockUsers[index], ...userData };
-  return mockUsers[index];
+// Find a user by email
+const getUserByEmail = async (email) => {
+    return await User.findOne({ email: email.toLowerCase() });
 };
 
-module.exports = { getUserById, getUserByEmail, createUser, updateUser };
+// Create a new user
+const createUser = async (userData) => {
+    const user = new User(userData);
+    return await user.save();
+};
+
+// Update an existing user
+const updateUser = async (id, userData) => {
+    return await User.findByIdAndUpdate(
+        id,
+        userData,
+        { new: true, runValidators: true }
+    );
+};
+
+module.exports = {
+    getUserById,
+    getUserByEmail,
+    createUser,
+    updateUser
+};

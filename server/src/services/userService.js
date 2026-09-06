@@ -1,41 +1,72 @@
 const userRepository = require('../repositories/userRepository');
 
-// Register a new user 
-const registerUser = (userData) => {
-  const { name, email, password } = userData;
+// Register a new user
+const registerUser = async (userData) => {
+    const { name, email, password } = userData;
 
-  const existingUser = userRepository.getUserByEmail(email);
-  if (existingUser) {
-    return { error: "Email already exists" };
-  }
+    const existingUser = await userRepository.getUserByEmail(email);
 
-  const newUser = userRepository.createUser({ name, email, password });
+    if (existingUser) {
+        return { error: "Email already exists" };
+    }
 
-  return { id: newUser.id, name: newUser.name, email: newUser.email };
+    const newUser = await userRepository.createUser({
+        name,
+        email,
+        password
+    });
+
+    return {
+        id: newUser._id,
+        name: newUser.name,
+        email: newUser.email
+    };
 };
 
-const getUserProfile = (id) => {
-  const user = userRepository.getUserById(id);
-  if (!user) return null;
+// Get user profile
+const getUserProfile = async (id) => {
+    const user = await userRepository.getUserById(id);
 
-  return { id: user.id, name: user.name, email: user.email };
+    if (!user) {
+        return null;
+    }
+
+    return {
+        id: user._id,
+        name: user.name,
+        email: user.email
+    };
 };
 
-// Update user profile 
-const updateUserProfile = (id, userData) => {
-  const { name, email } = userData;
+// Update user profile
+const updateUserProfile = async (id, userData) => {
+    const { name, email } = userData;
 
-  // Check if the new email is already used by another user
-  const existingUser = userRepository.getUserByEmail(email);
-  if (existingUser && existingUser.id !== parseInt(id)) {
-    return { error: "Email already in use by another user" };
-  }
+    // Check if the new email is already used by another user
+    const existingUser = await userRepository.getUserByEmail(email);
 
-  const updatedUser = userRepository.updateUser(id, { name, email });
-  if (!updatedUser) return null;
+    if (existingUser && existingUser._id.toString() !== id) {
+        return { error: "Email already in use by another user" };
+    }
 
-  // Return updated user without password
-  return { id: updatedUser.id, name: updatedUser.name, email: updatedUser.email };
+    const updatedUser = await userRepository.updateUser(id, {
+        name,
+        email
+    });
+
+    if (!updatedUser) {
+        return null;
+    }
+
+    return {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email
+    };
 };
 
-module.exports = { registerUser, getUserProfile, updateUserProfile };
+module.exports = {
+    registerUser,
+    getUserProfile,
+    updateUserProfile
+};

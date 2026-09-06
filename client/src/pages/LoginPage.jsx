@@ -20,23 +20,31 @@ export default function LoginPage() {
         <p className="brand-subtitle">Task Management System</p>
       </div>
 
-
       <div className="login-form-section">
         <div className="login-card">
           <h2 className="login-title">Login</h2>
+
           <form onSubmit={handleSubmit} className="login-form">
+
             <div className="input-group">
               <label>Email</label>
+
               <input
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
               />
-              {errors.email && <span className="error-text">{errors.email}</span>}
+
+              {errors.email && (
+                <span className="error-text">
+                  {errors.email}
+                </span>
+              )}
             </div>
 
             <div className="input-group">
               <label>Password</label>
+
               <div className="password-wrapper">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -45,21 +53,38 @@ export default function LoginPage() {
                 />
 
                 <i
-                  className={`fa-solid ${showPassword ? 'fa-eye-slash' : 'fa-eye'} toggle-password`}
+                  className={`fa-solid ${
+                    showPassword ? 'fa-eye-slash' : 'fa-eye'
+                  } toggle-password`}
                   onClick={handleTogglePassword}
                 ></i>
-
               </div>
-              {errors.password && <span className="error-text">{errors.password}</span>}
+
+              {errors.password && (
+                <span className="error-text">
+                  {errors.password}
+                </span>
+              )}
             </div>
 
+            {errors.form && (
+              <span className="error-text">
+                {errors.form}
+              </span>
+            )}
+
             <p className="register-redirect">
-              Don't Have an Account? <a href="/register">Register</a>
+              Don't Have an Account?{' '}
+              <a href="/register">Register</a>
             </p>
 
-            <button type="submit" className="login-submit-btn">
+            <button
+              type="submit"
+              className="login-submit-btn"
+            >
               Login
             </button>
+
           </form>
         </div>
       </div>
