@@ -6,31 +6,41 @@ import TaskGrid from "../components/Tasks/TaskGrid";
 import TaskModal from "../components/TaskModal/TaskModal";
 
 export default function TasksPage() {
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedTask, setSelectedTask] = useState(null);
 
+    // Get the project ID from:
+    // /tasks?projectId=xxxxxxxx
+    const projectId = new URLSearchParams(
+        window.location.search
+    ).get("projectId");
 
-    // Open an empty modal for creating a new task
+    // =========================
+    // ADD TASK
+    // =========================
+
     const handleAddTask = () => {
         setSelectedTask(null);
         setIsModalOpen(true);
     };
 
+    // =========================
+    // VIEW / EDIT TASK
+    // =========================
 
-    // Open the modal with an existing task
     const handleViewTask = (task) => {
         setSelectedTask(task);
         setIsModalOpen(true);
     };
 
+    // =========================
+    // CLOSE MODAL
+    // =========================
 
-    // Close the modal
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setSelectedTask(null);
     };
-
 
     return (
         <div className="tasks-page">
@@ -47,15 +57,16 @@ export default function TasksPage() {
 
                 <TaskGrid
                     onViewTask={handleViewTask}
+                    projectId={projectId}
                 />
 
             </main>
-
 
             <TaskModal
                 isOpen={isModalOpen}
                 onClose={handleCloseModal}
                 task={selectedTask}
+                projectId={projectId}
             />
 
         </div>

@@ -6,11 +6,9 @@ import ProjectGrid from "../components/Project/ProjectGrid";
 import ProjectModal from "../components/ProjectModal/ProjectModal";
 
 export default function ProjectsPage() {
-
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedProject, setSelectedProject] = useState(null);
     const [refreshTrigger, setRefreshTrigger] = useState(0);
-
 
     // =========================
     // ADD PROJECT
@@ -21,16 +19,14 @@ export default function ProjectsPage() {
         setIsModalOpen(true);
     };
 
-
     // =========================
-    // VIEW / EDIT PROJECT
+    // EDIT PROJECT
     // =========================
 
-    const handleViewProject = (project) => {
+    const handleEditProject = (project) => {
         setSelectedProject(project);
         setIsModalOpen(true);
     };
-
 
     // =========================
     // CLOSE MODAL
@@ -41,15 +37,13 @@ export default function ProjectsPage() {
         setSelectedProject(null);
     };
 
-
     // =========================
-    // PROJECT SAVED
+    // PROJECT SAVED / DELETED
     // =========================
 
     const handleProjectSaved = () => {
-        setRefreshTrigger(value => value + 1);
+        setRefreshTrigger((value) => value + 1);
     };
-
 
     return (
         <div className="projects-page">
@@ -64,14 +58,12 @@ export default function ProjectsPage() {
                     onButtonClick={handleAddProject}
                 />
 
-
                 <ProjectGrid
-                    onViewProject={handleViewProject}
+                    onEditProject={handleEditProject}
                     refreshTrigger={refreshTrigger}
                 />
 
             </main>
-
 
             <ProjectModal
                 isOpen={isModalOpen}

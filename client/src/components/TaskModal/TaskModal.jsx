@@ -4,16 +4,14 @@ import TaskForm from './TaskForm';
 export default function TaskModal({
     isOpen,
     onClose,
-    task
+    task,
+    projectId
 }) {
-
     if (!isOpen) {
         return null;
     }
 
-
     const isEditing = task !== null;
-
 
     return (
         <div className="task-modal-overlay">
@@ -26,8 +24,8 @@ export default function TaskModal({
                         {isEditing ? 'Edit Task' : 'Create a Task'}
                     </h2>
 
-
                     <button
+                        type="button"
                         className="task-modal__close"
                         onClick={onClose}
                         aria-label="Close modal"
@@ -37,10 +35,10 @@ export default function TaskModal({
 
                 </div>
 
-
                 <TaskForm
                     task={task}
                     onClose={onClose}
+                    projectId={projectId}
                 />
 
             </div>

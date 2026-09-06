@@ -1,22 +1,35 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import axios from 'axios';
+
 import './TaskGrid.css';
 import TaskCard from './TaskCard';
 
-export default function TaskGrid({ onViewTask }) {
+export default function TaskGrid({ onViewTask, projectId }) {
     const [tasks, setTasks] = useState([]);
 
     useEffect(() => {
         const fetchTasks = async () => {
             try {
-                const response = await axios.get('http://localhost:4000/api/tasks');
+                const token = localStorage.getItem('token');
+
+                const url = projectId
+                    ? `http://localhost:4000/api/tasks?projectId=${projectId}`
+                    : 'http://localhost:4000/api/tasks';
+
+                const response = await axios.get(url, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+
                 setTasks(response.data);
             } catch (error) {
-                console.error("Error fetching tasks:", error);
+                console.error('Error fetching tasks:', error);
             }
         };
+
         fetchTasks();
-    }, []);
+    }, [projectId]);
 
     const todoTasks = tasks.filter(
         task => task.status === 'To Do'
@@ -37,16 +50,21 @@ export default function TaskGrid({ onViewTask }) {
                 TO DO
             ========================= */}
             <div className="task-column">
-                <h2 className="task-column__title">To Do</h2>
+                <h2 className="task-column__title">
+                    To Do
+                </h2>
+
                 <div className="task-column__cards">
                     {todoTasks.map(task => (
                         <TaskCard
-                            key={task._id} 
+                            key={task._id}
                             title={task.title}
                             status={task.status}
                             assignee={task.assignee}
                             dueDate={task.dueDate}
-                            onViewDetails={() => onViewTask(task)}
+                            onViewDetails={() =>
+                                onViewTask(task)
+                            }
                         />
                     ))}
                 </div>
@@ -56,16 +74,21 @@ export default function TaskGrid({ onViewTask }) {
                 IN PROGRESS
             ========================= */}
             <div className="task-column">
-                <h2 className="task-column__title">In Progress</h2>
+                <h2 className="task-column__title">
+                    In Progress
+                </h2>
+
                 <div className="task-column__cards">
                     {inProgressTasks.map(task => (
                         <TaskCard
-                            key={task._id} 
+                            key={task._id}
                             title={task.title}
                             status={task.status}
                             assignee={task.assignee}
                             dueDate={task.dueDate}
-                            onViewDetails={() => onViewTask(task)}
+                            onViewDetails={() =>
+                                onViewTask(task)
+                            }
                         />
                     ))}
                 </div>
@@ -75,16 +98,21 @@ export default function TaskGrid({ onViewTask }) {
                 COMPLETED
             ========================= */}
             <div className="task-column">
-                <h2 className="task-column__title">Completed</h2>
+                <h2 className="task-column__title">
+                    Completed
+                </h2>
+
                 <div className="task-column__cards">
                     {completedTasks.map(task => (
                         <TaskCard
-                            key={task._id} 
+                            key={task._id}
                             title={task.title}
                             status={task.status}
                             assignee={task.assignee}
                             dueDate={task.dueDate}
-                            onViewDetails={() => onViewTask(task)}
+                            onViewDetails={() =>
+                                onViewTask(task)
+                            }
                         />
                     ))}
                 </div>

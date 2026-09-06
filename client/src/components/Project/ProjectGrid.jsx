@@ -5,17 +5,17 @@ import './ProjectGrid.css';
 import ProjectCard from './ProjectCard';
 import { getProjects } from '../../api/projectApi';
 
-export default function ProjectGrid({ onViewProject, refreshTrigger }) {
-
+export default function ProjectGrid({
+    onEditProject,
+    refreshTrigger
+}) {
     const [projects, setProjects] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-
     useEffect(() => {
 
         const loadProjects = async () => {
-
             try {
                 setLoading(true);
                 setError(null);
@@ -28,23 +28,19 @@ export default function ProjectGrid({ onViewProject, refreshTrigger }) {
             } finally {
                 setLoading(false);
             }
-
         };
 
         loadProjects();
 
     }, [refreshTrigger]);
 
-
     if (loading) {
         return <p>Loading projects...</p>;
     }
 
-
     if (error) {
         return <p>{error}</p>;
     }
-
 
     return (
         <section className="project-grid">
@@ -53,10 +49,11 @@ export default function ProjectGrid({ onViewProject, refreshTrigger }) {
 
                 <ProjectCard
                     key={project.id}
+                    projectId={project.id}
                     title={project.title}
                     membersCount={project.members.length}
                     description={project.description}
-                    onViewDetails={() => onViewProject(project)}
+                    onEditProject={() => onEditProject(project)}
                 />
 
             ))}

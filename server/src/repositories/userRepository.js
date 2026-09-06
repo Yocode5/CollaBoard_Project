@@ -1,4 +1,4 @@
-const User = require('../models/userModel');
+const User = require('../models/User');
 
 // Save a new user to MongoDB
 const createUser = async (userData) => {
