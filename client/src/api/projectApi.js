@@ -1,5 +1,12 @@
 const API_URL = "http://localhost:4000/api/projects";
 
+const formatProject = (project) => {
+    return {
+        ...project,
+        id: project._id
+    };
+};
+
 export const getProjects = async () => {
     const response = await fetch(API_URL);
 
@@ -9,9 +16,8 @@ export const getProjects = async () => {
 
     const result = await response.json();
 
-    return result.data;
+    return result.data.map(formatProject);
 };
-
 
 export const getProject = async (id) => {
     const response = await fetch(`${API_URL}/${id}`);
@@ -22,9 +28,8 @@ export const getProject = async (id) => {
 
     const result = await response.json();
 
-    return result.data;
+    return formatProject(result.data);
 };
-
 
 export const createProject = async (projectData) => {
     const response = await fetch(API_URL, {
@@ -41,9 +46,8 @@ export const createProject = async (projectData) => {
 
     const result = await response.json();
 
-    return result.data;
+    return formatProject(result.data);
 };
-
 
 export const updateProject = async (id, projectData) => {
     const response = await fetch(`${API_URL}/${id}`, {
@@ -60,9 +64,8 @@ export const updateProject = async (id, projectData) => {
 
     const result = await response.json();
 
-    return result.data;
+    return formatProject(result.data);
 };
-
 
 export const deleteProject = async (id) => {
     const response = await fetch(`${API_URL}/${id}`, {
@@ -75,5 +78,5 @@ export const deleteProject = async (id) => {
 
     const result = await response.json();
 
-    return result.data;
+    return formatProject(result.data);
 };
