@@ -1,20 +1,16 @@
 const dashboardService = require('../services/dashboardService');
+const { successResponse } = require('../utils/response');
 
-const getDashboardStats = async (req, res, next) => {
+const getStats = async (req, res, next) => {
     try {
-        const userId = req.user?.id || 1;
-        
+        const userId = req.params.userId;
         const stats = await dashboardService.getUserDashboardStats(userId);
-        
-        res.status(200).json({
-            success: true,
-            data: stats
-        });
+        return successResponse(res, 200, 'Dashboard stats retrieved', stats);
     } catch (error) {
         next(error);
     }
 };
 
 module.exports = {
-    getDashboardStats
+    getStats
 };
