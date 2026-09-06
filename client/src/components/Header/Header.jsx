@@ -1,34 +1,47 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import './Header.css';
 import ProfileModal from '../Profile/ProfileModal';
 
 export default function Header() {
     const [isProfileModalOpen, setIsProfileModalOpen] = useState(false);
 
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('user');
+
+        window.location.href = '/';
+    };
+
     return (
         <>
             <header className="header">
-                {/* Logo */}
                 <h1 className="header__title">
                     CollaBoard
                 </h1>
 
-                {/* Navigation */}
                 <nav className="header__nav">
-                    <a href="/dashbard" className="header__link">
+                    <a
+                        href="/dashboard"
+                        className="header__link"
+                    >
                         Home
                     </a>
-                    <a href="/projects" className="header__link">
+
+                    <a
+                        href="/projects"
+                        className="header__link"
+                    >
                         Projects
                     </a>
                 </nav>
 
-                {/* Actions */}
                 <div className="header__actions">
                     <button
                         type="button"
                         className="header__button header__button--profile"
-                        onClick={() => setIsProfileModalOpen(true)}
+                        onClick={() =>
+                            setIsProfileModalOpen(true)
+                        }
                     >
                         Profile
                     </button>
@@ -36,6 +49,7 @@ export default function Header() {
                     <button
                         type="button"
                         className="header__button header__button--logout"
+                        onClick={handleLogout}
                     >
                         Logout
                     </button>
@@ -43,8 +57,10 @@ export default function Header() {
             </header>
 
             {isProfileModalOpen && (
-                <ProfileModal 
-                    onClose={() => setIsProfileModalOpen(false)} 
+                <ProfileModal
+                    onClose={() =>
+                        setIsProfileModalOpen(false)
+                    }
                 />
             )}
         </>

@@ -1,14 +1,20 @@
 const express = require('express');
+
 const router = express.Router();
+
 const userController = require('../controllers/userController');
+const authMiddleware = require('../middleware/authMiddleware');
 
-// POST /api/users/register - Register a new user (implemented)
-router.post('/register', userController.registerUser);
+router.get(
+    '/profile/:id',
+    authMiddleware,
+    userController.getUserProfile
+);
 
-// GET /api/users/profile/:id - Get user profile by ID
-router.get('/profile/:id', userController.getUserProfile);
-
-// PUT /api/users/profile/:id - Update user profile by ID
-router.put('/profile/:id', userController.updateUserProfile);
+router.put(
+    '/profile/:id',
+    authMiddleware,
+    userController.updateUserProfile
+);
 
 module.exports = router;

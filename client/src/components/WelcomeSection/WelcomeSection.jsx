@@ -5,11 +5,25 @@ export default function WelcomeSection({
     buttonText,
     onButtonClick
 }) {
+    let userName = 'User';
+
+    const storedUser = localStorage.getItem('user');
+
+    if (storedUser) {
+        try {
+            const user = JSON.parse(storedUser);
+            userName = user.name || 'User';
+        } catch (error) {
+            console.error('Failed to read stored user:', error);
+        }
+    }
+
     return (
         <section className="welcome-section">
 
             <h2 className="welcome-section__title">
-                Welcome, [Name]
+                Welcome, {userName}
+
                 {sectionName && (
                     <>
                         <span className="welcome-section__separator">

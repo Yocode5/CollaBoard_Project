@@ -1,7 +1,9 @@
 const Task = require('../models/Task');
 
-const getAllTasks = async () => {
-    return await Task.find({});
+const getAllTasks = async (projectId) => {
+    const filter = projectId ? { projectId } : {};
+
+    return await Task.find(filter);
 };
 
 const getTaskById = async (id) => {
@@ -13,11 +15,24 @@ const createTask = async (taskData) => {
 };
 
 const updateTask = async (id, taskData) => {
-    return await Task.findByIdAndUpdate(id, taskData, { new: true });
+    return await Task.findByIdAndUpdate(
+        id,
+        taskData,
+        {
+            new: true,
+            runValidators: true
+        }
+    );
 };
 
 const deleteTask = async (id) => {
     return await Task.findByIdAndDelete(id);
 };
 
-module.exports = { getAllTasks, getTaskById, createTask, updateTask, deleteTask };
+module.exports = {
+    getAllTasks,
+    getTaskById,
+    createTask,
+    updateTask,
+    deleteTask
+};

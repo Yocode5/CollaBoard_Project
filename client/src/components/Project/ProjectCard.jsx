@@ -4,8 +4,13 @@ export default function ProjectCard({
     title,
     membersCount,
     description,
-    onViewDetails
+    projectId,
+    onEditProject
 }) {
+    const handleViewTasks = () => {
+        window.location.href = `/tasks?projectId=${projectId}`;
+    };
+
     return (
         <article className="project-card">
 
@@ -46,9 +51,17 @@ export default function ProjectCard({
                 <button
                     type="button"
                     className="project-card__details"
-                    onClick={onViewDetails}
+                    onClick={onEditProject}
                 >
-                    View Full Details
+                    Edit Project
+                </button>
+
+                <button
+                    type="button"
+                    className="project-card__details"
+                    onClick={handleViewTasks}
+                >
+                    View Tasks
                 </button>
 
             </div>

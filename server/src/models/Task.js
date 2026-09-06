@@ -6,20 +6,37 @@ const taskSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
+
     status: {
         type: String,
         required: true,
         enum: ['To Do', 'In Progress', 'Completed'],
         default: 'To Do'
     },
+
     assignee: {
         type: String,
         required: true
     },
+
     dueDate: {
         type: String,
         required: true
+    },
+
+    projectId: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Project',
+        required: true
+    },
+
+    description: {
+        type: String,
+        default: ''
     }
-}, { timestamps: true });
+
+}, {
+    timestamps: true
+});
 
 module.exports = mongoose.model('Task', taskSchema);
