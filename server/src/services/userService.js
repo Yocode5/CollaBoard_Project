@@ -19,13 +19,28 @@ const registerUser = async (userData) => {
     email: newUser.email
   };
 };
+// Get user profile by ID
 const getUserProfile = async (id) => {
-  // To be implemented for GET /profile/:id
+    const user = await userRepository.getUserById(id);
+    if (!user) return null;
+
+    return {
+        id: user._id,
+        name: user.name,
+        email: user.email
+    };
 };
 
 //  Update user profile
 const updateUserProfile = async (id, userData) => {
+    const updatedUser = await userRepository.updateUser(id, userData);
+    if (!updatedUser) return null;
 
+    return {
+        id: updatedUser._id,
+        name: updatedUser.name,
+        email: updatedUser.email
+    };
 };
 
 module.exports = {
