@@ -1,33 +1,27 @@
-const User = require('../models/User');
+const User = require('../models/userModel');
 
-// Find a user by ID
-const getUserById = async (id) => {
-    return await User.findById(id);
-};
-
-// Find a user by email
-const getUserByEmail = async (email) => {
-    return await User.findOne({ email: email.toLowerCase() });
-};
-
-// Create a new user
+// Save a new user to MongoDB
 const createUser = async (userData) => {
     const user = new User(userData);
     return await user.save();
 };
 
-// Update an existing user
+// Check if email already exists in the database
+const getUserByEmail = async (email) => {
+    return await User.findOne({ email: email.toLowerCase() });
+};
+
+const getUserById = async (id) => {
+    // To be implemented for GET /profile/:id
+};
+
 const updateUser = async (id, userData) => {
-    return await User.findByIdAndUpdate(
-        id,
-        userData,
-        { new: true, runValidators: true }
-    );
+    // To be implemented for PUT /profile/:id
 };
 
 module.exports = {
-    getUserById,
-    getUserByEmail,
     createUser,
+    getUserByEmail,
+    getUserById,
     updateUser
 };

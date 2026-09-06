@@ -2,71 +2,34 @@ const userRepository = require('../repositories/userRepository');
 
 // Register a new user
 const registerUser = async (userData) => {
-    const { name, email, password } = userData;
+  const { name, email, password } = userData;
 
-    const existingUser = await userRepository.getUserByEmail(email);
+  // Check if email is already taken
+  const existingUser = await userRepository.getUserByEmail(email);
+  if (existingUser) {
+    return { error: 'Email already exists' };
+  }
 
-    if (existingUser) {
-        return { error: "Email already exists" };
-    }
+  // Save user to database
+  const newUser = await userRepository.createUser({ name, email, password });
 
-    const newUser = await userRepository.createUser({
-        name,
-        email,
-        password
-    });
-
-    return {
-        id: newUser._id,
-        name: newUser.name,
-        email: newUser.email
-    };
+  return {
+    id: newUser._id,
+    name: newUser.name,
+    email: newUser.email
+  };
 };
-
-// Get user profile
 const getUserProfile = async (id) => {
-    const user = await userRepository.getUserById(id);
-
-    if (!user) {
-        return null;
-    }
-
-    return {
-        id: user._id,
-        name: user.name,
-        email: user.email
-    };
+  // To be implemented for GET /profile/:id
 };
 
-// Update user profile
+//  Update user profile
 const updateUserProfile = async (id, userData) => {
-    const { name, email } = userData;
 
-    // Check if the new email is already used by another user
-    const existingUser = await userRepository.getUserByEmail(email);
-
-    if (existingUser && existingUser._id.toString() !== id) {
-        return { error: "Email already in use by another user" };
-    }
-
-    const updatedUser = await userRepository.updateUser(id, {
-        name,
-        email
-    });
-
-    if (!updatedUser) {
-        return null;
-    }
-
-    return {
-        id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email
-    };
 };
 
 module.exports = {
-    registerUser,
-    getUserProfile,
-    updateUserProfile
+  registerUser,
+  getUserProfile,
+  updateUserProfile
 };
