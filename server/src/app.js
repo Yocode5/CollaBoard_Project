@@ -28,4 +28,10 @@ app.get('/', (req, res) => {
     });
 });
 
+app.use((error, req, res, next) => {
+    res.status(error.statusCode || 500).json({
+        message: error.message || 'Internal server error.'
+    });
+});
+
 module.exports = app;
