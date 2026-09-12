@@ -8,10 +8,12 @@ const projectSchema = new mongoose.Schema(
             trim: true
         },
 
-        members: {
-            type: [String],
-            default: []
-        },
+        members: [
+            {
+                type: mongoose.Schema.Types.ObjectId,
+                ref: 'User'
+            }
+        ],
 
         startDate: {
             type: String,

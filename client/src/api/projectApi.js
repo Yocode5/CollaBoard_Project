@@ -1,9 +1,26 @@
-const API_URL = "http://localhost:4000/api/projects";
+const API_URL = `${import.meta.env.VITE_API_URL || ''}/api/projects`;
+
+const formatMember = (member) => {
+    if (typeof member === "string") {
+        return {
+            id: member,
+            name: member,
+            email: ""
+        };
+    }
+
+    return {
+        id: member._id || member.id,
+        name: member.name || "",
+        email: member.email || ""
+    };
+};
 
 const formatProject = (project) => {
     return {
         ...project,
-        id: project._id
+        id: project._id,
+        members: (project.members || []).map(formatMember)
     };
 };
 
@@ -41,7 +58,11 @@ export const createProject = async (projectData) => {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to create project.");
+        const result = await response.json().catch(() => null);
+
+        throw new Error(
+            result?.message || "Failed to create project."
+        );
     }
 
     const result = await response.json();
@@ -59,7 +80,11 @@ export const updateProject = async (id, projectData) => {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to update project.");
+        const result = await response.json().catch(() => null);
+
+        throw new Error(
+            result?.message || "Failed to update project."
+        );
     }
 
     const result = await response.json();
@@ -73,7 +98,11 @@ export const deleteProject = async (id) => {
     });
 
     if (!response.ok) {
-        throw new Error("Failed to delete project.");
+        const result = await response.json().catch(() => null);
+
+        throw new Error(
+            result?.message || "Failed to delete project."
+        );
     }
 
     const result = await response.json();

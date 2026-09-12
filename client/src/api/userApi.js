@@ -1,10 +1,10 @@
-const API_URL = `${import.meta.env.VITE_API_URL || ''}/api/dashboard`;
+const API_URL = `${import.meta.env.VITE_API_URL || ''}/api/users`;
 
-export const getDashboardStats = async (userId) => {
+export const searchUsers = async (query) => {
     const token = localStorage.getItem('token');
 
     const response = await fetch(
-        `${API_URL}/stats/${userId}`,
+        `${API_URL}/search?q=${encodeURIComponent(query)}`,
         {
             method: 'GET',
             headers: {
@@ -13,13 +13,13 @@ export const getDashboardStats = async (userId) => {
         }
     );
 
-    const result = await response.json();
+    const data = await response.json();
 
     if (!response.ok) {
         throw new Error(
-            result.message || 'Failed to fetch dashboard stats.'
+            data.message || 'Failed to search users.'
         );
     }
 
-    return result.data;
+    return data;
 };

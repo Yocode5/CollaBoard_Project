@@ -6,12 +6,17 @@ const registerUser = async (userData) => {
 
   // Check if email is already taken
   const existingUser = await userRepository.getUserByEmail(email);
+
   if (existingUser) {
     return { error: 'Email already exists' };
   }
 
   // Save user to database
-  const newUser = await userRepository.createUser({ name, email, password });
+  const newUser = await userRepository.createUser({
+    name,
+    email,
+    password
+  });
 
   return {
     id: newUser._id,
@@ -19,32 +24,55 @@ const registerUser = async (userData) => {
     email: newUser.email
   };
 };
+
 // Get user profile by ID
 const getUserProfile = async (id) => {
-    const user = await userRepository.getUserById(id);
-    if (!user) return null;
+  const user = await userRepository.getUserById(id);
 
-    return {
-        id: user._id,
-        name: user.name,
-        email: user.email
-    };
+  if (!user) {
+    return null;
+  }
+
+  return {
+    id: user._id,
+    name: user.name,
+    email: user.email
+  };
 };
 
-//  Update user profile
-const updateUserProfile = async (id, userData) => {
-    const updatedUser = await userRepository.updateUser(id, userData);
-    if (!updatedUser) return null;
+// Search registered users by name or email
+const searchUsers = async (query) => {
+  if (!query || !query.trim()) {
+    return [];
+  }
 
-    return {
-        id: updatedUser._id,
-        name: updatedUser.name,
-        email: updatedUser.email
-    };
+  const users = await userRepository.searchUsers(query.trim());
+
+  return users.map((user) => ({
+    id: user._id,
+    name: user.name,
+    email: user.email
+  }));
+};
+
+// Update user profile
+const updateUserProfile = async (id, userData) => {
+  const updatedUser = await userRepository.updateUser(id, userData);
+
+  if (!updatedUser) {
+    return null;
+  }
+
+  return {
+    id: updatedUser._id,
+    name: updatedUser.name,
+    email: updatedUser.email
+  };
 };
 
 module.exports = {
   registerUser,
   getUserProfile,
+  searchUsers,
   updateUserProfile
 };
