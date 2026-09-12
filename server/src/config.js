@@ -1,9 +1,13 @@
 require('dotenv').config();
 
 const config = {
-    port: Number(process.env.PORT),
+    port: Number(process.env.PORT) || 4000,
+
     mongoUri: process.env.MONGO_URI,
-    jwtSecret: process.env.JWT_SECRET
+
+    jwtSecret: process.env.JWT_SECRET,
+
+    clientOrigin: process.env.CLIENT_ORIGIN || 'http://localhost:5173'
 };
 
 module.exports = config;

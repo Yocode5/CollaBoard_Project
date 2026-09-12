@@ -12,17 +12,19 @@ const getUserDashboardStats = async (userId) => {
     }
 
     const enrolledProjects = await Project.countDocuments({
-        members: user.name
+        members: user._id
     });
 
     const tasksPending = await Task.countDocuments({
-        assignedTo: userId,
-        status: 'pending'
+        assignee: user.name,
+        status: {
+            $in: ['To Do', 'In Progress']
+        }
     });
 
     const tasksCompleted = await Task.countDocuments({
-        assignedTo: userId,
-        status: 'completed'
+        assignee: user.name,
+        status: 'Completed'
     });
 
     return {

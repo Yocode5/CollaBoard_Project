@@ -6,6 +6,8 @@ import {
     deleteProject
 } from "../../api/projectApi";
 
+import { searchUsers } from "../../api/userApi";
+
 
 export default function ProjectForm({
     project,
@@ -13,25 +15,121 @@ export default function ProjectForm({
     onProjectSaved
 }) {
 
+    const storedUser = localStorage.getItem("user");
+
+    let currentUser = null;
+
+    if (storedUser) {
+        try {
+            currentUser = JSON.parse(storedUser);
+        } catch (error) {
+            console.error("Failed to read current user:", error);
+        }
+    }
+
+
     const [title, setTitle] = useState(project?.title || "");
     const [startDate, setStartDate] = useState(project?.startDate || "");
     const [endDate, setEndDate] = useState(project?.endDate || "");
+
     const [description, setDescription] = useState(
         project?.description || ""
     );
 
+
     const [memberSearch, setMemberSearch] = useState("");
 
-    const [members, setMembers] = useState(
-        project?.members || []
-    );
+    const [memberSuggestions, setMemberSuggestions] = useState([]);
+
+    const [members, setMembers] = useState(() => {
+
+        if (project?.members) {
+            return project.members;
+        }
+
+        if (currentUser) {
+            return [
+                {
+                    id: currentUser.id,
+                    name: currentUser.name,
+                    email: currentUser.email
+                }
+            ];
+        }
+
+        return [];
+    });
+
+
+    // =========================
+    // SEARCH REGISTERED USERS
+    // =========================
+
+    const handleMemberSearch = async (event) => {
+
+        const value = event.target.value;
+
+        setMemberSearch(value);
+
+        if (!value.trim()) {
+            setMemberSuggestions([]);
+            return;
+        }
+
+        try {
+
+            const users = await searchUsers(value);
+
+            const filteredUsers = users.filter(
+                (user) =>
+                    !members.some(
+                        (member) => member.id === user.id
+                    )
+            );
+
+            setMemberSuggestions(filteredUsers);
+
+        } catch (error) {
+
+            console.error("Failed to search users:", error);
+            setMemberSuggestions([]);
+        }
+    };
 
 
     // =========================
     // ADD MEMBER
     // =========================
 
-    const handleAddMember = (event) => {
+    const handleAddMember = (user) => {
+
+        if (!user) {
+            return;
+        }
+
+        const alreadyAdded = members.some(
+            (member) => member.id === user.id
+        );
+
+        if (alreadyAdded) {
+            return;
+        }
+
+        setMembers([
+            ...members,
+            user
+        ]);
+
+        setMemberSearch("");
+        setMemberSuggestions([]);
+    };
+
+
+    // =========================
+    // HANDLE ENTER
+    // =========================
+
+    const handleMemberKeyDown = (event) => {
 
         if (event.key !== "Enter") {
             return;
@@ -39,20 +137,9 @@ export default function ProjectForm({
 
         event.preventDefault();
 
-        const member = memberSearch.trim();
-
-        if (!member) {
-            return;
+        if (memberSuggestions.length > 0) {
+            handleAddMember(memberSuggestions[0]);
         }
-
-        // Prevent duplicate members
-        if (members.includes(member)) {
-            setMemberSearch("");
-            return;
-        }
-
-        setMembers([...members, member]);
-        setMemberSearch("");
     };
 
 
@@ -63,9 +150,10 @@ export default function ProjectForm({
     const handleRemoveMember = (memberToRemove) => {
 
         setMembers(
-            members.filter(member => member !== memberToRemove)
+            members.filter(
+                (member) => member.id !== memberToRemove.id
+            )
         );
-
     };
 
 
@@ -81,7 +169,7 @@ export default function ProjectForm({
             title,
             startDate,
             endDate,
-            members,
+            members: members.map((member) => member.id),
             description
         };
 
@@ -106,7 +194,6 @@ export default function ProjectForm({
         } catch (error) {
 
             console.error(error);
-
         }
     };
 
@@ -139,7 +226,6 @@ export default function ProjectForm({
         } catch (error) {
 
             console.error(error);
-
         }
     };
 
@@ -231,12 +317,47 @@ export default function ProjectForm({
                     id="member-search"
                     type="text"
                     value={memberSearch}
-                    onChange={(event) =>
-                        setMemberSearch(event.target.value)
-                    }
-                    onKeyDown={handleAddMember}
-                    placeholder=""
+                    onChange={handleMemberSearch}
+                    onKeyDown={handleMemberKeyDown}
+                    placeholder="Search by name or email"
+                    autoComplete="off"
                 />
+
+
+                {/* =========================
+                    USER SUGGESTIONS
+                ========================= */}
+
+                {memberSuggestions.length > 0 && (
+
+                    <div className="project-form__suggestions">
+
+                        {memberSuggestions.map((user) => (
+
+                            <button
+                                type="button"
+                                className="project-form__suggestion"
+                                key={user.id}
+                                onClick={() =>
+                                    handleAddMember(user)
+                                }
+                            >
+
+                                <span>
+                                    {user.name}
+                                </span>
+
+                                <small>
+                                    {user.email}
+                                </small>
+
+                            </button>
+
+                        ))}
+
+                    </div>
+
+                )}
 
             </div>
 
@@ -253,11 +374,11 @@ export default function ProjectForm({
 
                         <div
                             className="project-form__member"
-                            key={member}
+                            key={member.id}
                         >
 
                             <span>
-                                {member}
+                                {member.name}
                             </span>
 
                             <button
@@ -265,7 +386,7 @@ export default function ProjectForm({
                                 onClick={() =>
                                     handleRemoveMember(member)
                                 }
-                                aria-label={`Remove ${member}`}
+                                aria-label={`Remove ${member.name}`}
                             >
                                 <i className="fa-solid fa-xmark"></i>
                             </button>

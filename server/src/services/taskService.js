@@ -13,7 +13,42 @@ const createNewTask = async (taskData) => {
 };
 
 const modifyTask = async (id, taskData) => {
-    return await taskRepository.updateTask(id, taskData);
+    const expectedVersion = Number(taskData.version);
+
+    if (!Number.isInteger(expectedVersion) || expectedVersion < 0) {
+        const error = new Error('A valid task version is required.');
+        error.statusCode = 400;
+        throw error;
+    }
+
+    const updateData = {
+        ...taskData
+    };
+
+    delete updateData.version;
+
+    const result = await taskRepository.updateTask(
+        id,
+        updateData,
+        expectedVersion
+    );
+
+    if (result.notFound) {
+        const error = new Error('Task not found.');
+        error.statusCode = 404;
+        throw error;
+    }
+
+    if (result.conflict) {
+        const error = new Error(
+            'Task was changed by another user. Please refresh and try again.'
+        );
+        error.statusCode = 409;
+        error.currentVersion = result.currentVersion;
+        throw error;
+    }
+
+    return result.task;
 };
 
 const removeTask = async (id) => {

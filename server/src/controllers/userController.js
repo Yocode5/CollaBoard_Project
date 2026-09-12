@@ -11,10 +11,16 @@ const registerUser = async (req, res, next) => {
             });
         }
 
-        const result = await userService.registerUser({ name, email, password });
+        const result = await userService.registerUser({
+            name,
+            email,
+            password
+        });
 
         if (result.error) {
-            return res.status(409).json({ message: result.error });
+            return res.status(409).json({
+                message: result.error
+            });
         }
 
         res.status(201).json(result);
@@ -23,21 +29,36 @@ const registerUser = async (req, res, next) => {
     }
 };
 
-
 // GET /api/users/profile/:id
 const getUserProfile = async (req, res, next) => {
     try {
         const user = await userService.getUserProfile(req.params.id);
 
         if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({
+                message: 'User not found'
+            });
         }
 
         res.status(200).json(user);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        next(error);
     }
 };
+
+// GET /api/users/search?q=...
+const searchUsers = async (req, res, next) => {
+    try {
+        const { q } = req.query;
+
+        const users = await userService.searchUsers(q);
+
+        res.status(200).json(users);
+    } catch (error) {
+        next(error);
+    }
+};
+
 // PUT /api/users/profile/:id
 const updateUserProfile = async (req, res, next) => {
     try {
@@ -50,17 +71,20 @@ const updateUserProfile = async (req, res, next) => {
         });
 
         if (!result) {
-            return res.status(404).json({ message: 'User not found' });
+            return res.status(404).json({
+                message: 'User not found'
+            });
         }
 
         res.status(200).json(result);
     } catch (error) {
-        res.status(500).json({ message: 'Server error', error: error.message });
+        next(error);
     }
 };
 
 module.exports = {
     registerUser,
     getUserProfile,
+    searchUsers,
     updateUserProfile
 };
