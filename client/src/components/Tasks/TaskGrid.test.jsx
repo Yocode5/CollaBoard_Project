@@ -1,7 +1,6 @@
 /* eslint-env vitest */
 
-import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import { render, screen } from '@testing-library/react';
 import TaskGrid from './TaskGrid';
 import axios from 'axios';
 
