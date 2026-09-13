@@ -2,32 +2,33 @@ const request = require('supertest');
 const app = require('../../src/app');
 
 describe('Task API Integration Tests', () => {
-
     let createdTaskId;
 
     const testTask = {
-        title: "QA Backend Routes",
-        status: "In Progress",
-        assignee: "Samadhi",
-        dueDate: "2026-09-15",
-        projectId: "6aa58c12c1b8985217932c33"
+        title: 'QA Backend Routes',
+        status: 'In Progress',
+        assignee: 'Samadhi',
+        dueDate: '2026-09-15'
     };
 
-    // Test POST 
+    // Test POST
     it('should create a new task', async () => {
         const response = await request(app)
             .post('/api/tasks')
-            .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`) 
-            .send(testTask);
+            .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`)
+            .send({
+                ...testTask,
+                projectId: process.env.TEST_PROJECT_ID
+            });
 
         expect(response.statusCode).toBe(201);
         expect(response.body).toHaveProperty('_id');
         expect(response.body.title).toBe(testTask.title);
-        
-        createdTaskId = response.body._id; 
+
+        createdTaskId = response.body._id;
     });
 
-    // Test GET 
+    // Test GET
     it('should fetch all tasks', async () => {
         const response = await request(app)
             .get('/api/tasks')
@@ -47,22 +48,23 @@ describe('Task API Integration Tests', () => {
         expect(response.body._id).toBe(createdTaskId);
     });
 
-    // Test PUT 
+    // Test PUT
     it('should update an existing task', async () => {
         const response = await request(app)
             .put(`/api/tasks/${createdTaskId}`)
             .set('Authorization', `Bearer ${process.env.TEST_TOKEN}`)
             .send({
                 ...testTask,
-                status: "Completed",
+                projectId: process.env.TEST_PROJECT_ID,
+                status: 'Completed',
                 version: 0
             });
 
         expect(response.statusCode).toBe(200);
-        expect(response.body.status).toBe("Completed");
+        expect(response.body.status).toBe('Completed');
     });
 
-    // Test DELETE 
+    // Test DELETE
     it('should delete the task', async () => {
         const response = await request(app)
             .delete(`/api/tasks/${createdTaskId}`)
