@@ -13,11 +13,11 @@ describe('Authentication API', () => {
     // Clean up the test user before and after all tests
     beforeAll(async () => {
         await User.deleteOne({ email: testUser.email });
-    }, 30000);
+    });
 
     afterAll(async () => {
         await User.deleteOne({ email: testUser.email });
-    }, 30000);
+    });
 
     // Test 1: Successful Registration
     it('should register a new user successfully', async () => {
@@ -32,7 +32,7 @@ describe('Authentication API', () => {
         expect(response.body.data.user).toHaveProperty('id');
         expect(response.body.data.user.name).toBe(testUser.name);
         expect(response.body.data.user.email).toBe(testUser.email);
-    }, 15000);
+    });
 
     // Test 2: Registration with Duplicate Email
     it('should reject registration with a duplicate email', async () => {
@@ -43,7 +43,7 @@ describe('Authentication API', () => {
         expect(response.statusCode).toBe(409);
         expect(response.body).toHaveProperty('message');
         expect(response.body.message).toContain('Email already exists');
-    }, 15000);
+    });
 
     // Test 3: Successful Login
     it('should login successfully and return a JWT token', async () => {
@@ -59,7 +59,7 @@ describe('Authentication API', () => {
         expect(response.body.message).toBe('Login successful');
         expect(response.body.data).toHaveProperty('token');
         expect(response.body.data.user.email).toBe(testUser.email);
-    }, 15000);
+    });
 
     // Test 4: Failed Login with Incorrect Password
     it('should reject login with an incorrect password', async () => {
@@ -73,5 +73,5 @@ describe('Authentication API', () => {
         expect(response.statusCode).toBe(401);
         expect(response.body).toHaveProperty('message');
         expect(response.body.message).toContain('Invalid email or password');
-    }, 15000);
+    });
 });
