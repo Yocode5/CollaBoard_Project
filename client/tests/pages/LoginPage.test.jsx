@@ -1,36 +1,23 @@
-
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import LoginPage from '../../src/pages/LoginPage';
 
-jest.mock('react-router-dom', () => ({
+vi.mock('react-router-dom', () => ({
   Link: ({ children, to }) => <a href={to}>{children}</a>,
-  useNavigate: () => jest.fn(),
+  useNavigate: () => vi.fn(),
 }));
 
-const mockSetEmail = jest.fn();
-const mockSetPassword = jest.fn();
-const mockHandleSubmit = jest.fn((e) => {
-  if (e) e.preventDefault();
-});
-
-let mockHookState = {
-  email: '',
-  setEmail: mockSetEmail,
-  password: '',
-  setPassword: mockSetPassword,
-  errors: {},
-  isLoading: false,
-  handleSubmit: mockHandleSubmit,
-};
-
-jest.mock('../../src/hooks/useLoginForm', () => ({
-  useLoginForm: () => mockHookState,
-}));
-
-describe('Login UI Component', () => {
-  beforeEach(() => {
-    mockHookState = {
+const mocks = vi.hoisted(() => {
+  const mockSetEmail = vi.fn();
+  const mockSetPassword = vi.fn();
+  const mockHandleSubmit = vi.fn((e) => {
+    if (e) e.preventDefault();
+  });
+  return {
+    mockSetEmail,
+    mockSetPassword,
+    mockHandleSubmit,
+    hookState: {
       email: '',
       setEmail: mockSetEmail,
       password: '',
@@ -38,8 +25,21 @@ describe('Login UI Component', () => {
       errors: {},
       isLoading: false,
       handleSubmit: mockHandleSubmit,
-    };
-    jest.clearAllMocks();
+    },
+  };
+});
+
+vi.mock('../../src/hooks/useLoginForm', () => ({
+  useLoginForm: () => mocks.hookState,
+}));
+
+describe('Login UI Component', () => {
+  beforeEach(() => {
+    mocks.hookState.email = '';
+    mocks.hookState.password = '';
+    mocks.hookState.errors = {};
+    mocks.hookState.isLoading = false;
+    vi.clearAllMocks();
   });
 
   test('renders the login form elements correctly', () => {
@@ -57,7 +57,7 @@ describe('Login UI Component', () => {
     const emailInput = screen.getByPlaceholderText(/email/i);
     fireEvent.change(emailInput, { target: { value: 'test@example.com' } });
     
-    expect(mockSetEmail).toHaveBeenCalledWith('test@example.com');
+    expect(mocks.mockSetEmail).toHaveBeenCalledWith('test@example.com');
   });
 
   test('calls handleSubmit when the login button is clicked', () => {
@@ -66,11 +66,11 @@ describe('Login UI Component', () => {
     const submitButton = screen.getByRole('button', { name: /login/i });
     fireEvent.click(submitButton);
     
-    expect(mockHandleSubmit).toHaveBeenCalled();
+    expect(mocks.mockHandleSubmit).toHaveBeenCalled();
   });
 
   test('displays error messages when provided by the form', () => {
-    mockHookState.errors = { 
+    mocks.hookState.errors = { 
       email: 'Invalid email address', 
       password: 'Password is required' 
     };
@@ -82,7 +82,7 @@ describe('Login UI Component', () => {
   });
 
   test('disables the submit button and shows loading text when loading', () => {
-    mockHookState.isLoading = true;
+    mocks.hookState.isLoading = true;
     
     render(<LoginPage />);
     
