@@ -17,7 +17,8 @@ export default defineConfig([
       globals: {
         ...globals.browser,
         ...globals.node,
-        ...globals.jest, 
+        ...globals.jest,
+        jest: 'readonly', 
         describe: 'readonly',
         test: 'readonly',
         it: 'readonly',
