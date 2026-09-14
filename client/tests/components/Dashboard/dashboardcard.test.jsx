@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import DashboardCard from './DashboardCard';
+import DashboardCard from '../../../src/components/Dashboard/DashboardCard';
 
 describe('DashboardCard Component', () => {
     test('renders number and label props correctly', () => {

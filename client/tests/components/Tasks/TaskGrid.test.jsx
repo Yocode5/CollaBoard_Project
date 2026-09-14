@@ -1,5 +1,5 @@
 import { render, screen } from '@testing-library/react';
-import TaskGrid from './TaskGrid';
+import TaskGrid from '../../../src/components/Tasks/TaskGrid';
 import axios from 'axios';
 
 vi.mock('axios');
