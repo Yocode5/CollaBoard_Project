@@ -1,6 +1,6 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import ProfileForm from './ProfileForm';
+import ProfileForm from '../../../src/components/Profile/ProfileForm';
 
 const mocks = vi.hoisted(() => ({
     getUserProfile: vi.fn().mockResolvedValue({
@@ -13,7 +13,7 @@ const mocks = vi.hoisted(() => ({
     })
 }));
 
-vi.mock('../../api/profileApi', () => ({
+vi.mock('../../../src/api/profileApi', () => ({
     getUserProfile: mocks.getUserProfile,
     updateUserProfile: mocks.updateUserProfile
 }));
